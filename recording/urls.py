@@ -12,6 +12,7 @@ urlpatterns = [
 	# ex: /record/5/
 	path('<int:pk>/', views.DetailView.as_view(), name='detail'),
 	path('new_seed', views.new_seed, name='new_seed'),
+	path('new_rec', views.new_rec, name='new_rec'),
 
 	url(r'^ajax/align_voice/$', views.align_voice, name='align_voice'),
 

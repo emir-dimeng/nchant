@@ -104,21 +104,12 @@ def handle_uploaded_file(f, id):
 def test(request):
 	return render(request, 'recording/test.html')
 
+# test
+def new_rec(request):
+	return render(request, 'recording/new_rec.html')
 # new seed
 def new_seed(request):
-    VoiceFormSet = modelformset_factory(Voice, fields='__all__')
-    if request.method == "POST":
-        formset = VoiceFormSet(
-            request.POST, request.FILES,
-            queryset=Voice.objects.filter(title__startswith='O'),
-        )
-        if formset.is_valid():
-            # formset.save()
-            # Do something.
-            print('Save')
-    else:
-        formset = VoiceFormSet(queryset=Voice.objects.filter(title__startswith='O'))
-    return render(request, 'recording/new_seed.html', {'formset': formset})
+    return render(request, 'recording/new_seed.html')
 
 def create_seed(request):
 	form = VoiceForm(request.POST, request.FILES)

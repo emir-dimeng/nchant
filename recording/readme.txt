@@ -1,3 +1,11 @@
+Install:
+pip install sounddevice
+pip install SoundFile
+pip install librosa
+pip install numba==0.48 (since librosa needs the old version numba)
+pip install pydub
+python -m pip install Pillow
+-------------------------------------------------------------------------------
 Issues:
 1. database, the recording_name cannot be the same
 2. download button
@@ -6,6 +14,9 @@ Issues:
 5. take the 1st onset of the onset group
 *6. onset of seed
 7. follow the SEED/COLLECTIVE
+8. generate requirements.txt
+ pip freeze > requirements.txt
+9. Environment: nchant-virtualenv
 
 -----------------------------------------------------------------------------------------
 Usefull things:

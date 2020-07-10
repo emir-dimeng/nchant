@@ -1,0 +1,33 @@
+<div class="modal-dialog" role="document">
+	    	<div class="modal-content">
+      			<div class="modal-header">
+        			<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        			<h4 class="modal-title" id="newRecordLabel">Recording</h4>
+      			</div>
+      			<div class="modal-body">
+        			<h5>Following ... </h5>
+	        		<form id="rec_form">
+  					<div class="form-row">
+	    				<div class="form-group col-md-4">
+    	  					<label for="follow">Seed or Collective voice</label>
+     						<select id="follow" class="form-control">
+        						<option value=1>SEED</option>
+        						<option value=2 selected>COLLECTIVE</option>
+	      					</select>
+    					</div>
+    					<div class="form-group col-md-4">
+      						<button id="start_rec" onclick="play_rec(this);" type="button" style="" class="btn btn-outline-secondary">Record</button>
+			    			<button id="stop_rec" onclick="stopRecording(this);" type="button" 	class="btn btn-outline-secondary hidden" disabled>Stop</button>
+
+			    			<h5>Recordings</h5>
+ 		 					<ul id="recordingslist"></ul>
+    					</div>
+  					</div>
+        			</form>
+      			</div>
+    	  		<div class="modal-footer">
+	        		<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+    	    		<button id="add" onclick="add(this);" type="button" class="btn btn-primary disabled">Add</button>
+      			</div>
+    		</div>
+  		</div>

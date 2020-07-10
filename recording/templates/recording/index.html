@@ -3,178 +3,94 @@
 
 
 {% block title %}
-	NChant
+  NChant
 {% endblock %}
 
 {% block header %}
 <div class="container">
-
 <div class="row">
-	<div class="col-md-4"> <h1>NChant</h1> </div>
-	<br/>
-	<div class="col-md-2 ">
-		<button type="button" id="create" data-loading-text="adding..." class="btn btn-info btn-lg" data-toggle="modal" data-target="#newSeed">
-  			<span class="glyphicon glyphicon-plus"></span> New Seed
-		</button>
-	</div>
+  <div class="col-md-4"> <h1>NChant</h1> </div>
+  <br/>
+  <div class="col-md-2 ">
+    <button type="button" id="create" data-loading-text="adding..." class="btn btn-info btn-lg" data-toggle="modal" data-target="#newSeed">
+        <span class="glyphicon glyphicon-plus"></span> New Seed
+    </button>
+  </div>
 </div>
 </div>
 {% endblock %}
 
 {% block content %}
 <div class="container">
-	<div>
-	{% if recording_list %}
+    <!-- New Seed -->
+    <div class="modal fade" id="newSeed" tabindex="-1" role="dialog" aria-labelledby="newRecordLabel">
+    </div>
+    <!-- New Record Modal -->
+  <div class="modal fade" id="newRecord" tabindex="-1" role="dialog" aria-labelledby="newRecordLabel">
+  </div>
+  <!-- alert message -->
+  <div class="alert alert-success alert-dismissible fade show" id="success-alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">x</button>
+      <strong>Success! </strong> Added successfully!.
+  </div>
+
+  <div class="alert alert-danger alert-dismissible fade show" id="faild-alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">x</button>
+      <strong >Faild!</strong> <p id="faild-mes"></p>
+  </div>
+
+  <div>
+  {% if recording_list %}
         {% for voice in recording_list %}
         <h3>{{voice.title}}</h3>
-		<audio controls
-			data-info-album-art="{{ voice.image.url }}"
-			data-info-album-title="{{voice.description}}"
-			data-info-artist="{{voice.initiator}}"
-			data-info-title="{{voice.title}}"
-			data-info-label="{{voice.count}}"
-			data-info-year="{{voice.pub_date}}"
-			data-info-record="{{ voice.id }}"
-			data-info-seed="{{ voice.seed.url }}"
-			data-info-collective="{{ voice.collective.url }}">
-		<source src="{{ voice.collective.url }}" type="audio/mpeg" />
-		</audio>
-		<br />
-		{% endfor %}
+    <audio controls
+      data-info-album-art="{{ voice.image.url }}"
+      data-info-album-title="{{voice.description}}"
+      data-info-artist="{{voice.initiator}}"
+      data-info-title="{{voice.title}}"
+      data-info-label="{{voice.count}}"
+      data-info-year="{{voice.pub_date}}"
+      data-info-record="{{ voice.id }}"
+      data-info-seed="{{ voice.seed.url }}"
+      data-info-collective="{{ voice.collective.url }}">
+    <source src="{{ voice.collective.url }}" type="audio/mpeg" />
+    </audio>
+    <br />
+    {% endfor %}
     {% else %}
-		<p>No record are available</p>
-	{% endif %}
-	</div>
-
-	<!-- alert message -->
-	<div class="alert alert-success alert-dismissible fade show" id="success-alert">
-  		<button type="button" class="close" data-dismiss="alert" aria-label="Close">x</button>
-  		<strong>Success! </strong> Added successfully!.
-	</div>
-
-	<div class="alert alert-danger alert-dismissible fade show" id="faild-alert">
-  		<button type="button" class="close" data-dismiss="alert" aria-label="Close">x</button>
-  		<strong >Faild!</strong> <p id="faild-mes"></p>
-	</div>
-
-	<!-- New Record Modal -->
-	<div class="modal fade" id="newRecord" tabindex="-1" role="dialog" aria-labelledby="newRecordLabel">
-  		<div class="modal-dialog" role="document">
-	    	<div class="modal-content">
-      			<div class="modal-header">
-        			<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        			<h4 class="modal-title" id="newRecordLabel">Recording</h4>
-      			</div>
-      			<div class="modal-body">
-        			<h5>Following ... </h5>
-	        		<form id="rec_form">
-  					<div class="form-row">
-	    				<div class="form-group col-md-4">
-    	  					<label for="follow">Seed or Collective voice</label>
-     						<select id="follow" class="form-control">
-        						<option value=1>SEED</option>
-        						<option value=2 selected>COLLECTIVE</option>
-	      					</select>
-    					</div>
-    					<div class="form-group col-md-4">
-      						<button id="start_rec" onclick="play_rec(this);" type="button" style="" class="btn btn-outline-secondary">Record</button>
-			    			<button id="stop_rec" onclick="stopRecording(this);" type="button" 	class="btn btn-outline-secondary hidden" disabled>Stop</button>
-
-			    			<h2>Recordings</h2>
- 		 					<ul id="recordingslist"></ul>
-  
-  							<h2>Log</h2>
-  							<pre id="log"></pre>
-    					</div>
-  					</div>
-        			</form>
-      			</div>
-    	  		<div class="modal-footer">
-	        		<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-    	    		<button id="add" onclick="add(this);" type="button" class="btn btn-primary disabled">Add</button>
-      			</div>
-    		</div>
-  		</div>
-	</div>
-
-
-	<!-- New Seed Modal -->
-	<div class="modal fade" id="newSeed" tabindex="-1" role="dialog" aria-labelledby="newRecordLabel">
-  		<div class="modal-dialog" role="document">
-	    	<div class="modal-content">
-      			<div class="modal-header">
-        			<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        			<h4 class="modal-title" id="newRecordLabel">New Seed</h4>
-      			</div>
-      			<div class="modal-body">
-        			<h5>Please fill out the information:</h5>
-        			<div>
-        				<form id="seed_form" name="seed_form">
-  							<div class="form-group">
-    							<label for="title">Title</label>
-    							<input type="text" class="form-control" id="title" name="title" placeholder="Title">
-  							</div>
-  							<div class="form-group">
-    							<label for="initiator">Initiator Name</label>
-    							<input type="text" class="form-control" id="initiator" name="initiator" placeholder="Initiator">
-  							</div>
-  							<div class="form-group">
-    							<label for="description">Description</label>
-    							<textarea class="form-control" id="description" name="description" rows="3"></textarea>
-  							</div>
-  							<div class="form-group">
-    							<label for="image">Image</label>
-    							<input type="file" class="form-control-file" id="image" name="image">
-  							</div>
-						</form>
-						
-						<button id="start_seed" onclick="startRecording(this);" type="button" style="" class="btn btn-outline-secondary">Record</button>
-			    		<button id="stop_seed" onclick="stopRecordingSeed(this);" type="button" 	class="btn btn-outline-secondary" disabled>Stop</button>
-			    		<br/>
-			    		<h5>Seed List</h5>
-			    		<p>Note: Multiple recordings take the last recording.</p>
- 		 				<ul id="seedlist"></ul>
-        			</div>
-      			</div>
-    	  		<div class="modal-footer">
-	        		<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-    	    		<button id="seed_create" type="button" class="btn btn-primary disabled" onclick="create_seed(this);">Create</button>
-      			</div>
-    		</div>
-    	</div>
-    </div>
+    <p>No record are available</p>
+  {% endif %}
+  </div>
 </div>
 {% endblock %}
 
 {% block script %}
-		
+
 <script type="text/javascript">
 var voice_id = 0
 var seed = ""
 var collective = ""
 var new_rec = ""
 $(".rec_modal").on('click', function() {
-	voice_id = parseInt(this.id, 10)
-	seed = this.getAttribute('seed')
-	collective = this.getAttribute('collective')
-		/*
-   		$('#newRecord').on('show.bs.modal', function (event) {
-  		
-  		var modal = $(this)
-  		modal.find('.modal-title').text('New message to ' + seed)
-  		modal.find('.modal-body input').val(seed)
-	});*/
-});
-   	
-	
-	/*
-	RecordJs:
-	record audio on the brower
-	*/
+    //load page
+    $("#newRecord").load("new_rec")
+  voice_id = parseInt(this.id, 10)
+  seed = this.getAttribute('seed')
+  collective = this.getAttribute('collective')
+    /*
+      $('#newRecord').on('show.bs.modal', function (event) {
 
-function __log(e, data) {
-    log.innerHTML += "\n" + e + " " + (data || '');
-  }
+      var modal = $(this)
+      modal.find('.modal-title').text('New message to ' + seed)
+      modal.find('.modal-body input').val(seed)
+  });*/
+});
+
+
+  /*
+  RecordJs:
+  record audio on the brower
+  */
 
 var audio_context;
 var recorder;
@@ -184,67 +100,67 @@ var recorder;
 
 function startUserMedia(stream) {
     var input = audio_context.createMediaStreamSource(stream);
-    __log('Media stream created.');
+
 
     // Uncomment if you want the audio to feedback directly
     //input.connect(audio_context.destination);
     //__log('Input connected to audio context destination.');
-    
+
     recorder = new Recorder(input);
-    __log('Recorder initialised.');
+
 }
 
 // playback and recording
 function play_rec(button){
-	// init the audio recording device
-	//rec_init()
-	//
-	// get relative values
-	var e = document.getElementById("follow")
-	var text = e.options[e.selectedIndex].text
-	var value = e.options[e.selectedIndex].value
-	// get the source
-	var fol_source
-	if(text=="SEED"){
-		fol_source = seed
-	}else{
-		fol_source = collective
-	}
-	// new audio object
-	var source = new Audio(fol_source)
-	// load audio data
+  // init the audio recording device
+  //rec_init()
+  //
+  // get relative values
+  var e = document.getElementById("follow")
+  var text = e.options[e.selectedIndex].text
+  var value = e.options[e.selectedIndex].value
+  // get the source
+  var fol_source
+  if(text=="SEED"){
+    fol_source = seed
+  }else{
+    fol_source = collective
+  }
+  // new audio object
+  var source = new Audio(fol_source)
+  // load audio data
 
-	source.onloadedmetadata = function(){
-  	// calculate duration of the source
-	var s_duration = source.duration * 1000
-	// recording
-	startRecording(button)
-	// play
-	source.play()
-	// stop recoring after the duration of source
-	// set endplaying function
-	
-	source.onended = function(event) {
-		stopRecording(button.nextElementSibling)
-	}
-	
+  source.onloadedmetadata = function(){
+    // calculate duration of the source
+  var s_duration = source.duration * 1000
+  // recording
+  startRecording(button)
+  // play
+  source.play()
+  // stop recoring after the duration of source
+  // set endplaying function
+
+  source.onended = function(event) {
+    stopRecording(button.nextElementSibling)
+  }
+
   }
 }
 
 function startRecording(button) {
-  	
+
     recorder && recorder.record();
     button.disabled = true;
     button.nextElementSibling.disabled = false;
-    __log('Recording...');
+
   }
 
   function stopRecording(button) {
     recorder && recorder.stop();
     button.disabled = true;
     button.previousElementSibling.disabled = false;
-    __log('Stopped recording.');
-    
+
+
     // create WAV download link using audio data blob
     createDownloadLink();
     //recorder.clear();
@@ -258,7 +174,7 @@ function startRecording(button) {
       var li = document.createElement('li');
       var au = document.createElement('audio');
       var hf = document.createElement('a');
-      
+
       au.controls = true;
       au.src = url;
       hf.href = url;
@@ -277,65 +193,65 @@ function startRecording(button) {
       window.AudioContext = window.AudioContext || window.webkitAudioContext;
       navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia;
       window.URL = window.URL || window.webkitURL;
-      
+
       audio_context = new AudioContext;
-      __log('Audio context set up.');
-      __log('navigator.getUserMedia ' + (navigator.getUserMedia ? 'available.' : 'not present!'));
+
     } catch (e) {
       alert('No web audio support in this browser!');
     }
-    
+
     navigator.getUserMedia({audio: true}, startUserMedia, function(e) {
-      __log('No live audio input: ' + e);
     })
   }
 
   // Submit & Add
 function add(add_btn) {
-	var formData = new FormData();
-	formData.append('id', voice_id)
-  	recorder && recorder.exportWAV(function(blob){
-  		formData.append('new_rec', blob, voice_id.toString()+'.wav');
-  		formData.append('csrfmiddlewaretoken', '{{ csrf_token }}');
-  		//json_data = JSON.stringify(json_data)
-  		$.ajax({
-  			type:"POST",
-    		url: '/recording/ajax/align_voice/',
-    		data: formData,
-    		contentType: false,
-			processData: false,
-			success: function(response){
-				console.log(response);
-				if(response['success']){
-					location.reload(true)
-                    location.reload(true, function(){	
-                    	$("#success-alert").fadeTo(2000, 500).slideUp(500, function(){
-    						$("#success-alert").slideUp(500);
-						});
+  var formData = new FormData();
+  formData.append('id', voice_id)
+    recorder && recorder.exportWAV(function(blob){
+      formData.append('new_rec', blob, voice_id.toString()+'.wav');
+      formData.append('csrfmiddlewaretoken', '{{ csrf_token }}');
+      //json_data = JSON.stringify(json_data)
+      $.ajax({
+        type:"POST",
+        url: '/recording/ajax/align_voice/',
+        data: formData,
+        contentType: false,
+      processData: false,
+      success: function(response){
+        console.log(response);
+        if(response['success']){
+          location.reload(true)
+                    location.reload(true, function(){
+                      $("#success-alert").fadeTo(2000, 500).slideUp(500, function(){
+                $("#success-alert").slideUp(500);
+            });
                     })
-				}
-				if (response['error']) {
-					$("#faild-mes").html(response['error']['comment']);
-					$("#faild-alert").fadeTo(2000, 500).slideUp(500, function(){
-    						$("#faild-alert").slideUp(500);
-					});
-				}
-			}
-		})
-  	});
+        }
+        if (response['error']) {
+          $("#faild-mes").html(response['error']['comment']);
+          $("#faild-alert").fadeTo(2000, 500).slideUp(500, function(){
+                $("#faild-alert").slideUp(500);
+          });
+        }
+      }
+    })
+    });
 }
 
-   
+
+
+
 /*
-	New Seed
-	$('#create').on('click', function () {
+  New Seed
+
+*/
+$('#create').on('click', function () {
     var $btn = $(this).button('loading')
     // business logic...
-    // $("#seed_form").load("new_seed")
+    $("#newSeed").load("new_seed")
     $btn.button('reset')
   })
-*/
- 
 
 
 // click RECORD button
@@ -343,8 +259,8 @@ function add(add_btn) {
     recorder && recorder.stop();
     button.disabled = true;
     button.previousElementSibling.disabled = false;
-    __log('Stopped recording.');
-    
+
+
     // create WAV download link using audio data blob
     createDownloadLinkSeed();
     //recorder.clear();
@@ -358,7 +274,7 @@ function add(add_btn) {
       var li = document.createElement('li');
       var au = document.createElement('audio');
       var hf = document.createElement('a');
-      
+
       au.controls = true;
       au.src = url;
       hf.href = url;
@@ -372,41 +288,41 @@ function add(add_btn) {
 
 // Submit for creating new seed
 function create_seed(add_btn) {
-	var form = document.getElementById('seed_form')
-	var formData = new FormData(form);
-	formData.append('count', 1)
-	// formData.append('onset', 0.0)
-	// formData.append('pub_date', $.now())
-  	recorder && recorder.exportWAV(function(blob){
-  		formData.append('seed', blob, formData.get('title') +'_seed.wav');
-  		formData.append('collective', blob, formData.get('title') +'_col.wav');
-  		formData.append('csrfmiddlewaretoken', '{{ csrf_token }}');
-  		//json_data = JSON.stringify(json_data)
-  		$.ajax({
-  			type:"POST",
-    		url: '/recording/ajax/create_seed/',
-    		data: formData,
-    		contentType: false,
-			processData: false,
-			success: function(response){
-				console.log(response);
-				if(response['success']){
-					location.reload(true)
-                    location.reload(true, function(){	
-                    	$("#success-alert").fadeTo(2000, 500).slideUp(500, function(){
-    						$("#success-alert").slideUp(500);
-						});
+  var form = document.getElementById('seed_form')
+  var formData = new FormData(form);
+  formData.append('count', 1)
+  // formData.append('onset', 0.0)
+  // formData.append('pub_date', $.now())
+    recorder && recorder.exportWAV(function(blob){
+      formData.append('seed', blob, formData.get('title') +'_seed.wav');
+      formData.append('collective', blob, formData.get('title') +'_col.wav');
+      formData.append('csrfmiddlewaretoken', '{{ csrf_token }}');
+      //json_data = JSON.stringify(json_data)
+      $.ajax({
+        type:"POST",
+        url: '/recording/ajax/create_seed/',
+        data: formData,
+        contentType: false,
+      processData: false,
+      success: function(response){
+        console.log(response);
+        if(response['success']){
+          location.reload(true)
+                    location.reload(true, function(){
+                      $("#success-alert").fadeTo(2000, 500).slideUp(500, function(){
+                $("#success-alert").slideUp(500);
+            });
                     })
-				}
-				if (response['error']) {
-					$("#faild-mes").html(response['error']['comment']);
-					$("#faild-alert").fadeTo(2000, 500).slideUp(500, function(){
-    						$("#faild-alert").slideUp(500);
-					});
-				}
-			}
-		})
-  	});
+        }
+        if (response['error']) {
+          $("#faild-mes").html(response['error']['comment']);
+          $("#faild-alert").fadeTo(2000, 500).slideUp(500, function(){
+                $("#faild-alert").slideUp(500);
+          });
+        }
+      }
+    })
+    });
 }
 </script>
 
