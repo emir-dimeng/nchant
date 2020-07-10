@@ -32,7 +32,6 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'recording.apps.RecordingConfig',
-    'record.apps.RecordConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

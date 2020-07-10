@@ -116,7 +116,11 @@ def create_seed(request):
 	if form.is_valid():
 		voice = form.save(commit=False)
 		voice.pub_date = timezone.now()
-		seed_id = Voice.objects.latest('pk').pk + 1
+		# get the id
+		try:
+			seed_id = Voice.objects.latest('pk').pk + 1
+		except:
+			seed_id = 1
 		root = handle_uploaded_file(request.FILES['seed'], seed_id)
 		print("root", root)
 		voice.onset = seed_onset(root)

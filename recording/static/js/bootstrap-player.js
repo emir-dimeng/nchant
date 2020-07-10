@@ -65,7 +65,7 @@
 				}
 				timeout++;
 			}, 50);
-			
+
 			$(player).append(play);
 		};
 		var addSeek = function() {
@@ -100,7 +100,7 @@
 						bg += ', rgba(217, 237, 247, 1) ' + bufferedstart + '%';
 						bg += ', rgba(217, 237, 247, 1) ' + bufferedend + '%';
 						bg += ', rgba(217, 237, 247, 0) ' + bufferedend + '%';
-					}						
+					}
 				}
 				$(seek).css('background', '-webkit-linear-gradient(left, ' + bg + ')');
 				//These may be re-enabled when/if other browsers support the background like webkit
@@ -256,7 +256,7 @@
 
 		var addRecord = function() {
 			var record = document.createElement('button');
-				$(record).addClass('btn btn-primary rec_modal');
+				$(record).addClass('btn btn-primary btn-block rec_modal');
 				record.setAttribute('data-toggle', 'modal');
 				record.setAttribute('data-target', '#newRecord');
 				record.setAttribute('data-voice', $(song).data('infoRecord'));

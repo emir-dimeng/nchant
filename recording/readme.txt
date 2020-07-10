@@ -17,6 +17,9 @@ Issues:
 8. generate requirements.txt
  pip freeze > requirements.txt
 9. Environment: nchant-virtualenv
+10. MEDIA_ROOT
+11. Recording: recorderJs
+12. Volum impact
 
 -----------------------------------------------------------------------------------------
 Usefull things:
