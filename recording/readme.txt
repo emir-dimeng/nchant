@@ -20,6 +20,16 @@ Issues:
 10. MEDIA_ROOT
 11. Recording: recorderJs
 12. Volum impact
+13. Chrome: access Microphone + Sound
+	solution: 
+	*****
+	audio:  {
+        sampleRate: 48000,
+        channelCount: 2,
+        volume: 1.0
+    }
+	*****
+	https://blog.addpipe.com/audio-constraints-getusermedia/
 
 -----------------------------------------------------------------------------------------
 Usefull things:

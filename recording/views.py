@@ -61,6 +61,10 @@ def align_voice(request):
 		voice.count = voice.count + 1
 		# save
 		voice.save()
+		
+		# delete root file
+		delete_file(root)
+
 		# get new_rec
 		# new_rec = AudioSegment.from_file(root, format="wav")
 		# play(new_rec)

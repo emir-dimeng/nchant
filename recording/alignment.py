@@ -220,7 +220,7 @@ def align(rec_dir, collective_dir, seed_onset):
 	# col_onset = superflux(collective, fs_c)
 	# overlay new recoring and collective
 	align_rec = overlay(collective_dir, rec_dir, seed_onset, y_onset)
-	play(align_rec)
+	# play(align_rec)
 	# delete original file first
 	delete_file(collective_dir)
 	# update the collective voice
