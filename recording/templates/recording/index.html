@@ -351,6 +351,9 @@ $('#create').on('click', function () {
       start_seed.addEventListener("click", seed_rec);
       stop_seed.addEventListener("click", seed_stop);
 
+      // set default values of form 
+      document.getElementById("title").defaultValue = "title_"+Date.now();
+      document.getElementById("description").defaultValue = "Describe it to let people know more.";
       $btn.button('reset')
     });
     
@@ -371,42 +374,46 @@ function seed_rec(){
   
 /********************************Submit & Create new seed************************************/
 function create_seed(add_btn) {
-  var $btn = $(add_btn).button('loading')
-  var form = document.getElementById('seed_form')
-  var formData = new FormData(form);
-  formData.append('count', 1)
-  // formData.append('onset', 0.0)
-  // formData.append('pub_date', $.now())
-  rec.exportWAV(function(blob){
-    formData.append('seed', blob, formData.get('title') +'_seed.wav');
-    formData.append('collective', blob, formData.get('title') +'_col.wav');
-    formData.append('csrfmiddlewaretoken', '{{ csrf_token }}');
-    //json_data = JSON.stringify(json_data)
-    $.ajax({
-      type:"POST",
-      url: '/recording/ajax/create_seed/',
-      data: formData,
-      contentType: false,
-      processData: false,
-      success: function(response){
-        console.log(response);
-        if(response['success']){
-          location.reload(true, function(){
-            $("#success-alert").fadeTo(2000, 500).slideUp(500, function(){
-              $("#success-alert").slideUp(500);
+  if (document.getElementById("image").files.length == 0) {
+    $('#image_empty').html('<div class="alert alert-warning fade in"><button type="button" class="close close-alert" data-dismiss="alert" aria-hidden="true">×</button> Please choose an image for your NChant! </div>');
+  }else{
+    var $btn = $(add_btn).button('loading')
+    var form = document.getElementById('seed_form')
+    var formData = new FormData(form);
+    formData.append('count', 1)
+    // formData.append('onset', 0.0)
+    // formData.append('pub_date', $.now())
+    rec.exportWAV(function(blob){
+      formData.append('seed', blob, formData.get('title') +'_seed.wav');
+      formData.append('collective', blob, formData.get('title') +'_col.wav');
+      formData.append('csrfmiddlewaretoken', '{{ csrf_token }}');
+      //json_data = JSON.stringify(json_data)
+      $.ajax({
+        type:"POST",
+        url: '/recording/ajax/create_seed/',
+        data: formData,
+        contentType: false,
+        processData: false,
+        success: function(response){
+          console.log(response);
+          if(response['success']){
+            location.reload(true, function(){
+              $("#success-alert").fadeTo(2000, 500).slideUp(500, function(){
+                $("#success-alert").slideUp(500);
+              });
+            })
+          }
+          if (response['error']) {
+            $btn.button('reset');
+            $("#faild-mes").html(response['error']['comment']);
+            $("#faild-alert").fadeTo(2000, 500).slideUp(500, function(){
+              $("#faild-alert").slideUp(500);
             });
-          })
+          }
         }
-        if (response['error']) {
-          $btn.button('reset');
-          $("#faild-mes").html(response['error']['comment']);
-          $("#faild-alert").fadeTo(2000, 500).slideUp(500, function(){
-            $("#faild-alert").slideUp(500);
-          });
-        }
-      }
-    })
-  });
+      })
+    });
+  }
 }
 </script>
 {% endblock %}
