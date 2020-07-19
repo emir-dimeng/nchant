@@ -251,6 +251,7 @@
 			var albumArt = document.createElement('img');
 				$(albumArt).addClass("img-fluid img-thumbnail");
 				$(albumArt).attr('src', $(song).data('infoAlbumArt'));
+				$(albumArt).attr('style', 'width:100%');
 			$(data_sec).append(albumArt);
 		};
 
@@ -266,6 +267,18 @@
 				record.textContent = 'Record'
 			$(data_sec).append(record);
 		};
+
+		var addDownload = function() {
+			var download = document.createElement('a');
+				$(download).addClass('btn btn-secondary btn-block');
+				download.setAttribute('role', 'button');
+				download.setAttribute('id', 'download');
+				download.setAttribute('download', $(song).data('infoTitle'))+'.wav';
+				download.setAttribute('href', $(song).data('infoCollective'));
+				download.textContent = 'Download'
+			$(data_sec).append(download);
+		};
+
 
 		var addInfo = function(title, dataId) {
 			var row = document.createElement('tr');
@@ -286,6 +299,7 @@
 			if (typeof($(song).data('infoLabel')) !== 'undefined'){ addInfo('Count', 'infoLabel');}
 			if (typeof($(song).data('infoYear')) !== 'undefined'){ addInfo('Date', 'infoYear');}
 			if (typeof($(song).data('infoRecord')) !== 'undefined'){ addRecord();}
+			if (typeof($(song).data('infoRecord')) !== 'undefined'){ addDownload();}
 			if ($(data_table).html() !== ""){
 				$(data_sec).append(data_table);
 				$(player_box).append(toggle_holder);
